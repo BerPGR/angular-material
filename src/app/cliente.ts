@@ -17,7 +17,11 @@ export class ClienteService {
     localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(clientes))
   }
 
-  obterStorage(): Cliente[] {
+  pesquisarClientes(nome: string): Cliente[] {
+    return this.obterStorage()
+  }
+
+  private obterStorage(): Cliente[] {
     const repositorioClientes = this.storage.getItem(ClienteService.REPO_CLIENTES)
     if (repositorioClientes) {
       const clientes: Cliente[] = JSON.parse(repositorioClientes)
