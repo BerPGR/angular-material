@@ -65,8 +65,8 @@
                             <button mat-icon-button color="accent"><mat-icon fontIcon="edit"
                                     (click)="preparaEditar(client.id)"></mat-icon></button>
 
-                            @if (!deletando) {
-                            <button mat-icon-button color="accent" (click)="preparaDeletar()"><mat-icon fontIcon="delete"></mat-icon></button>
+                            @if (!client.deletando) {
+                            <button mat-icon-button color="accent" (click)="preparaDeletar(client)"><mat-icon fontIcon="delete"></mat-icon></button>
                             } @else {
                             <button mat-icon-button color="accent" (click)="deletar(client)"><mat-icon fontIcon="question_mark"></mat-icon></button>
                             }
