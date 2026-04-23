@@ -21,7 +21,7 @@ export class Consulta implements OnInit {
 
   nomeBusca: string = ""
   listaClientes: Cliente[] = []
-  colunasTable: string[] = ['id', 'nome', 'email', 'cpf', 'dataNascimento', 'acoes']
+  colunasTable: string[] = ['id', 'nome', 'email', 'cpf', 'dataNascimento', "uf", "municipio", 'acoes']
 
   constructor(
     private service: ClienteService,

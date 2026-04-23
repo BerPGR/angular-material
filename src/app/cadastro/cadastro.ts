@@ -11,6 +11,10 @@ import { ClienteService } from '../cliente';
 import { ActivatedRoute, Router } from '@angular/router';
 import { NgxMaskDirective, provideNgxMask } from 'ngx-mask'
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Brasilapi } from '../brasilapi';
+import { Estado, Municipio } from '../brasilapi.models';
+import { MatSelectChange, MatSelectModule } from '@angular/material/select';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-cadastro',
@@ -22,7 +26,9 @@ import { MatSnackBar } from '@angular/material/snack-bar';
     MatInputModule, 
     MatIconModule, 
     MatButtonModule,
-    NgxMaskDirective
+    NgxMaskDirective,
+    MatSelectModule,
+    CommonModule
   ],
   providers: [
     provideNgxMask()
@@ -35,9 +41,12 @@ export class Cadastro implements OnInit{
   cliente: Cliente = Cliente.newCliente()
   atualizando: boolean = false
   snack: MatSnackBar = inject(MatSnackBar)
+  estados: Estado[] = []
+  municipios: Municipio[] = []
 
   constructor(
     private service: ClienteService, 
+    private brasilApiService: Brasilapi,
     private route: ActivatedRoute,
     private router: Router
   ) {
@@ -45,6 +54,7 @@ export class Cadastro implements OnInit{
   }
 
   ngOnInit(): void {
+    this.carregarUFs()
     this.route.queryParamMap.subscribe((query: any) => {
       const params = query['params']
       const id = params['id']
@@ -52,10 +62,30 @@ export class Cadastro implements OnInit{
       if (id) {
         const clienteEncontrado = this.service.buscarClientePorId(id)
         if (clienteEncontrado) {
-          this.cliente = clienteEncontrado
           this.atualizando = true
+          this.cliente = clienteEncontrado
+          if (this.cliente.uf) {
+            const event = { value: this.cliente.uf } as MatSelectChange
+            this.carregarMunicipios(event)
+          }
         }
       }
+    })
+  }
+
+  carregarUFs() {
+    // Observable - Subscriber
+    this.brasilApiService.listarUfs().subscribe({
+      next: (listaEstados) => this.estados = listaEstados, // O que vai acontecer se der sucesso
+      error: (erro) => console.log(erro) // O que vai acontecer se der erro
+    })
+  }
+
+  carregarMunicipios(event: MatSelectChange) {
+    const ufSelecionada = event.value
+    this.brasilApiService.listarMunicipios(ufSelecionada).subscribe({
+      next: (listaMunicipios) => this.municipios = listaMunicipios,
+      error: (erro) => console.log(erro)
     })
   }
 
