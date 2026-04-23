@@ -18,7 +18,12 @@ export class ClienteService {
   }
 
   pesquisarClientes(nome: string): Cliente[] {
-    return this.obterStorage()
+    const clientes = this.obterStorage()
+    if (!nome) {
+      return clientes
+    }
+
+    return clientes.filter(cliente => cliente.nome?.toLowerCase().includes(nome.toLowerCase()))
   }
 
   private obterStorage(): Cliente[] {
