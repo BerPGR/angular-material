@@ -19,6 +19,7 @@ import { Cliente } from '../cadastro/cliente';
 export class Consulta implements OnInit {
 
   listaClientes: Cliente[] = []
+  colunasTable: string[] = ['id', 'nome', 'email', 'cpf', 'dataNascimento']
 
   constructor(private service: ClienteService) {}
 
