@@ -27,6 +27,12 @@ export class ClienteService {
     localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(clientes))
   }
 
+  excluir(clienteExcluido: Cliente) {
+    const clientes = this.obterStorage()
+    const novosClientes = clientes.filter(c => c.id !== clienteExcluido.id)
+    localStorage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(novosClientes))
+  }
+
   pesquisarClientes(nome: string): Cliente[] {
     const clientes = this.obterStorage()
     if (!nome) {
