@@ -37,4 +37,11 @@ export class ClienteService {
     this.storage.setItem(ClienteService.REPO_CLIENTES, JSON.stringify(clientes))
     return clientes
   }
+
+  buscarClientePorId(id: string): Cliente | undefined {
+    const clientes = this.obterStorage()
+    const cliente = clientes.find(cliente => cliente.id === id)
+
+    return cliente
+  }
 }
